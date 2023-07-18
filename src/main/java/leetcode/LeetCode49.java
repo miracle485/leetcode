@@ -13,7 +13,6 @@ public class LeetCode49 {
             kk.computeIfAbsent(hashCode, key -> new ArrayList<>()).add(str);
         }
 
-
         return new ArrayList<>(kk.values());
     }
 
