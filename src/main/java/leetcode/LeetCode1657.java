@@ -20,7 +20,7 @@ public class LeetCode1657 {
         char[] c1 = word1.toCharArray();
         char[] c2 = word2.toCharArray();
 
-        for (int i = 0; i < word1.toCharArray().length; i++) {
+        for (int i = 0; i < c1.length; i++) {
             w1[c1[i] - 'a']++;
             w2[c2[i] - 'a']++;
         }
