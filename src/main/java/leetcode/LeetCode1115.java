@@ -1,5 +1,6 @@
 package leetcode;
 
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -9,10 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
  **/
 public class LeetCode1115 {
     private int n = 2;
-    private ReentrantLock firstRL = new ReentrantLock();
-    private Condition first = firstRL.newCondition();
-    private Condition second = firstRL.newCondition();
-    private ReentrantLock secondRL = new ReentrantLock();
+    private Semaphore first = new Semaphore(0);
+    private Semaphore second = new Semaphore(1);
 
     public static void main(String[] args) throws InterruptedException {
         LeetCode1115 leetCode1115 = new LeetCode1115();
@@ -33,29 +32,30 @@ public class LeetCode1115 {
         thread1.start();
         thread2.start();
 
-//        Thread.sleep(1000);
-//        thread2.stop();
-//        thread1.stop();
+        Thread.sleep(1000);
+        thread2.stop();
+        thread1.stop();
     }
 
     public void foo(Runnable printFoo) throws InterruptedException {
 
         for (int i = 0; i < n; i++) {
-            firstRL.lock();
+            second.acquire();
 
             // printFoo.run() outputs "foo". Do not change or remove this line.
             printFoo.run();
-            first.signal();
-            second.await();
-            firstRL.unlock();
+            first.release();
+
         }
     }
 
     public void bar(Runnable printBar) throws InterruptedException {
 
         for (int i = 0; i < n; i++) {
+            first.acquire();
             // printBar.run() outputs "bar". Do not change or remove this line.
             printBar.run();
+            second.release();
         }
     }
 }
