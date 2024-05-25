@@ -1,24 +1,29 @@
 package leetcode;
 
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 
 public class LeetCode2434 {
     public static String robotWithString(String s) {
-        StringBuilder sb = new StringBuilder();
-        int minIndex = 0;
+        Deque<Character> deque = new LinkedList<>();
+        StringBuilder builder = new StringBuilder();
+        int[] minChar = new int[26];
         char[] charArray = s.toCharArray();
-        Deque<Character> stack = new LinkedList<>();
-        stack.push(charArray[0]);
-        for (int i = 1; i < charArray.length; i++) {
-
+        for (char c : charArray) {
+            minChar[(c - 'a')]++;
         }
-        while (!stack.isEmpty()) {
-            sb.append(stack.pop());
+        int minIndex = 0;
+        for (char c : charArray) {
+            minChar[c - 'a']--;
+            while (minIndex < 26 && minChar[minIndex] == 0) minIndex++;
+
+            deque.offerFirst(c);
+            while (!deque.isEmpty() && deque.peekFirst() <= (minIndex + 'a')) {
+                builder.append(deque.pollFirst());
+            }
         }
 
-        return sb.toString();
+        return builder.toString();
     }
 
     public static void main(String[] args) {
