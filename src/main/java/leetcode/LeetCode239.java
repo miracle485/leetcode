@@ -8,6 +8,6 @@ public class LeetCode239 {
     public int[] maxSlidingWindow(int[] nums, int k) {
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
         int[] result = new int[k];
-
+        return  nums;
     }
 }

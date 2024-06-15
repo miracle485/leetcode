@@ -2,22 +2,27 @@ package leetcode;
 
 public class LeetCode92 {
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        ListNode preHead = new ListNode(0, head);
-        ListNode preLeft = preHead;
+        ListNode preHead = new ListNode();
+        preHead.next = head;
+        ListNode pLeft = preHead;
         for (int i = 0; i < left; i++) {
-            preLeft = preLeft.next;
+            pLeft = pLeft.next;
         }
-
-        ListNode pre = null;
-        ListNode curr = preLeft.next;
-        for (int i = 0; i < right - left + 1; i++) {
+        ListNode curr = pLeft.next;
+        ListNode pre = pLeft;
+        while (left <= right) {
             ListNode next = curr.next;
             curr.next = pre;
             pre = curr;
             curr = next;
+
+            left++;
         }
-        preLeft.next.next = curr;
-        preLeft.next = pre;
+        if (pLeft.next != null) {
+            pLeft.next.next = curr;
+        }
+        pLeft.next = pre;
+
         return preHead.next;
     }
 
